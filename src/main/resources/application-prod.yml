@@ -1,0 +1,15 @@
+spring:
+  data:
+    mongodb:
+      uri: ${DB_URL:mongodb://localhost:27017/presence_db}
+
+clerk:
+  secret-key: ${CLERK_SECRET_KEY}
+
+presence:
+  cors:
+    allowed-origins: ${ALLOWED_ORIGINS:http://localhost:5173}
+
+logging:
+  level:
+    com.presence: INFO

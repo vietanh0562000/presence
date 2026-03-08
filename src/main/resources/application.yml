@@ -1,0 +1,18 @@
+server:
+  port: 8080
+
+spring:
+  data:
+    mongodb:
+      uri: ${DB_URL:mongodb+srv://simon:simon@presence.tvav7fn.mongodb.net/presence_db?appName=Presence}
+
+clerk:
+  secret-key: ${CLERK_SECRET_KEY:sk_test_YOUR_CLERK_SECRET_KEY}
+
+presence:
+  cors:
+    allowed-origins: http://localhost:5173,http://localhost:3000
+
+logging:
+  level:
+    com.presence: DEBUG
