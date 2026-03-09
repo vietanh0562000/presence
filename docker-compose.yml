@@ -1,0 +1,12 @@
+services:
+  app:
+    image: ghcr.io/${GITHUB_REPOSITORY}:latest
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_URL=${DB_URL}
+      - CLERK_SECRET_KEY=${CLERK_SECRET_KEY}
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS}
+    env_file:
+      - .env
