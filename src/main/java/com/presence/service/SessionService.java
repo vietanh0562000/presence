@@ -50,6 +50,31 @@ public class SessionService {
         return saved;
     }
 
+    // ── Update draft answers ─────────────────────────────────
+
+    /**
+     * Replaces the answers of an existing partial session (draft).
+     * Only updates if the session belongs to the requesting user.
+     */
+    public Optional<Session> update(String userId, String sessionId, SaveSessionRequest req) {
+        return repository.findById(sessionId)
+            .filter(s -> userId.equals(s.getUserId()))
+            .map(s -> {
+                List<SenseAnswer> answers = req.getAnswers().stream()
+                    .map(dto -> SenseAnswer.builder()
+                        .sense(dto.getSense())
+                        .icon(dto.getIcon())
+                        .question(dto.getQuestion())
+                        .answer(dto.getAnswer())
+                        .build())
+                    .collect(Collectors.toList());
+                s.setAnswers(answers);
+                Session saved = repository.save(s);
+                log.info("Draft updated id={} userId={} answers={}", saved.getId(), userId, answers.size());
+                return saved;
+            });
+    }
+
     // ── Update mood ──────────────────────────────────────────
 
     /**

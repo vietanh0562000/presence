@@ -94,6 +94,17 @@ public class SessionController {
         return ResponseEntity.ok(service.getRange(principal.getUserId(), from, to));
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<Session> update(
+        @AuthenticationPrincipal ClerkPrincipal principal,
+        @PathVariable String id,
+        @Valid @RequestBody SaveSessionRequest req
+    ) {
+        return service.update(principal.getUserId(), id, req)
+            .map(ResponseEntity::ok)
+            .orElse(ResponseEntity.notFound().build());
+    }
+
     @PatchMapping("/{id}/mood")
     public ResponseEntity<Session> updateMood(
         @AuthenticationPrincipal ClerkPrincipal principal,
