@@ -28,5 +28,7 @@ public interface SessionRepository extends MongoRepository<Session, String> {
 
     @Query("{ 'userId': ?0, 'moodTag': { $regex: ?1, $options: 'i' } }")
     List<Session> findByUserIdAndMoodTagContaining(String userId, String mood);
+
+    Optional<Session> findFirstByUserIdAndIsPartialTrueAndAiReflectionIsNullOrderByUpdatedAtDesc(String userId);
 }
 

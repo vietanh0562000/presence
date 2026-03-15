@@ -1,12 +1,13 @@
 package com.presence.dto;
 
+import java.time.LocalDate;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-
-import java.time.LocalDate;
-import java.util.List;
 
 /**
  * POST /api/sessions — save a completed or partial grounding session.
@@ -26,6 +27,7 @@ public class SaveSessionRequest {
     private String moodTag;
 
     /** Whether the session was completed fully */
+    @JsonProperty("isPartial")
     private boolean isPartial;
 
     /** Total questions in the app at the time of the session */

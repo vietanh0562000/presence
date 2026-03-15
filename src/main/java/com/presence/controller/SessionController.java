@@ -94,6 +94,15 @@ public class SessionController {
         return ResponseEntity.ok(service.getRange(principal.getUserId(), from, to));
     }
 
+    @GetMapping("/latest-unfinished")
+    public ResponseEntity<Session> getLatestUnfinishedSession(
+        @AuthenticationPrincipal ClerkPrincipal principal
+    ) {
+        return service.getLatestUnfinishedSession(principal.getUserId())
+            .map(ResponseEntity::ok)
+            .orElse(ResponseEntity.noContent().build());
+    }
+
     @PatchMapping("/{id}")
     public ResponseEntity<Session> update(
         @AuthenticationPrincipal ClerkPrincipal principal,

@@ -1,18 +1,20 @@
 package com.presence.service;
 
-import com.presence.dto.SaveSessionRequest;
-import com.presence.model.SenseAnswer;
-import com.presence.model.Session;
-import com.presence.repository.SessionRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+
+import com.presence.dto.SaveSessionRequest;
+import com.presence.model.SenseAnswer;
+import com.presence.model.Session;
+import com.presence.repository.SessionRepository;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
@@ -50,6 +52,12 @@ public class SessionService {
         return saved;
     }
 
+    // ── Draft ────────────────────────────────────────────────
+
+    public Optional<Session> getLatestUnfinishedSession(String userId) {
+        return repository.findFirstByUserIdAndIsPartialTrueAndAiReflectionIsNullOrderByUpdatedAtDesc(userId);
+    }
+
     // ── Update draft answers ─────────────────────────────────
 
     /**
@@ -69,6 +77,8 @@ public class SessionService {
                         .build())
                     .collect(Collectors.toList());
                 s.setAnswers(answers);
+                s.setPartial(req.isPartial());
+                s.setAiReflection(req.getAiReflection());
                 Session saved = repository.save(s);
                 log.info("Draft updated id={} userId={} answers={}", saved.getId(), userId, answers.size());
                 return saved;

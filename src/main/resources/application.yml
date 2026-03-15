@@ -16,3 +16,5 @@ presence:
 logging:
   level:
     com.presence: DEBUG
+    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
+    org.mongodb.driver.protocol.command: TRACE
